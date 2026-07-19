@@ -8,6 +8,7 @@ interface OptionCardProps {
   selected: boolean;
   onPress: () => void;
   variant?: "grid" | "list";
+  columns?: number;
 }
 
 export default function OptionCard({
@@ -16,6 +17,7 @@ export default function OptionCard({
   selected,
   onPress,
   variant = "grid",
+  columns = 3,
 }: OptionCardProps) {
   const backgroundColor = useThemeColor({}, "cardBackground") || "#F8F9FA";
   const selectedBackground = useThemeColor({}, "selectedBackground") || "#EBF5FB";
@@ -25,7 +27,9 @@ export default function OptionCard({
   return (
     <Pressable
       style={({ pressed }) => [
-        variant === "grid" ? styles.gridCard : styles.listCard,
+        variant === "grid"
+          ? { ...styles.gridCard, width: `${(100 - (columns - 1) * 2) / columns}%` }
+          : styles.listCard,
         { backgroundColor: selected ? selectedBackground : backgroundColor },
         selected && { borderColor: borderColor, borderWidth: 2 },
         pressed && styles.pressed,
