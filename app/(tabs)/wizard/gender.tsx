@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { View, SafeAreaView, ScrollView, StatusBar, StyleSheet } from "react-native";
+import { View, ScrollView, StatusBar, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import Header from "@/components/Header";
 import OptionCard from "@/components/OptionCard";

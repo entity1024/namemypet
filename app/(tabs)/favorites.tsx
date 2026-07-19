@@ -3,12 +3,12 @@ import { useFocusEffect, useRouter } from "expo-router";
 import {
   View,
   Text,
-  SafeAreaView,
   StyleSheet,
   FlatList,
   StatusBar,
   Pressable,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import EmptyState from "@/components/EmptyState";
 import { getFavorites, removeFavorite } from "@/services/favorites";

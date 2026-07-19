@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
-import { View, Text, SafeAreaView, StyleSheet, StatusBar, Pressable } from "react-native";
+import { View, Text, StyleSheet, StatusBar, Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useThemeColor } from "@/hooks/use-theme-color";
 
 export default function HomeScreen() {
