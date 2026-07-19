@@ -1,22 +1,27 @@
-// app/(tabs)/_layout.tsx
-import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { useThemeColor } from "@/hooks/use-theme-color";
 
 export default function TabsLayout() {
+  const activeTint = useThemeColor({}, "primary");
+  const inactiveTint = useThemeColor({}, "icon");
+  const bgColor = useThemeColor({}, "background");
+  const borderColor = useThemeColor({}, "border");
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: "#FFFFFF",
+          backgroundColor: bgColor,
           borderTopWidth: 1,
-          borderTopColor: "#E5E7EB",
+          borderTopColor: borderColor,
           height: 70,
           paddingBottom: 8,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: "#3498DB",
-        tabBarInactiveTintColor: "#9CA3AF",
+        tabBarActiveTintColor: activeTint || "#3498DB",
+        tabBarInactiveTintColor: inactiveTint || "#9CA3AF",
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: "500",
@@ -32,7 +37,12 @@ export default function TabsLayout() {
           ),
         }}
       />
-
+      <Tabs.Screen
+        name="wizard"
+        options={{
+          href: null, // Hide from tab bar but keep accessible
+        }}
+      />
       <Tabs.Screen
         name="favorites"
         options={{
@@ -42,7 +52,6 @@ export default function TabsLayout() {
           ),
         }}
       />
-
       <Tabs.Screen
         name="about"
         options={{
