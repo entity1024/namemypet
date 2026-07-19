@@ -1,6 +1,6 @@
+import { useThemeColor } from "@/hooks/use-theme-color";
 import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
-import { useThemeColor } from "@/hooks/use-theme-color";
 
 interface FloatingNextButtonProps {
   onPress: () => void;
@@ -11,7 +11,7 @@ export default function FloatingNextButton({
   onPress,
   disabled = false,
 }: FloatingNextButtonProps) {
-  const primary = useThemeColor({}, "primary") || "#3498DB";
+  const primary = useThemeColor({}, "primary") || "#3B82F6";
   const disabledColor = useThemeColor({}, "disabled") || "#D1D5DB";
   const textColor = "#FFFFFF";
 
