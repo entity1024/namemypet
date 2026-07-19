@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1 },
   container: { flex: 1 },
   scrollView: { flex: 1 },
-  scrollContent: { paddingHorizontal: 20, paddingBottom: 130, paddingTop: 8 },
+  scrollContent: { paddingHorizontal: 20, paddingBottom: 100, paddingTop: 8 },
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",

@@ -1,9 +1,12 @@
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useThemeColor } from "@/hooks/use-theme-color";
 
 interface OptionCardProps {
   emoji: string;
+  iconName?: keyof typeof Ionicons.glyphMap;
+  iconColor?: string;
   label: string;
   selected: boolean;
   onPress: () => void;
@@ -13,6 +16,8 @@ interface OptionCardProps {
 
 export default function OptionCard({
   emoji,
+  iconName,
+  iconColor,
   label,
   selected,
   onPress,
@@ -36,7 +41,16 @@ export default function OptionCard({
       ]}
       onPress={onPress}
     >
-      <Text style={styles.emoji}>{emoji}</Text>
+      {iconName ? (
+        <Ionicons
+          name={iconName}
+          size={28}
+          color={iconColor || useThemeColor({}, "text")}
+          style={styles.iconStyle}
+        />
+      ) : (
+        <Text style={styles.emoji}>{emoji}</Text>
+      )}
       <Text
         style={[styles.label, { color: textColor }]}
         numberOfLines={2}
@@ -83,6 +97,9 @@ const styles = StyleSheet.create({
   },
   emoji: {
     fontSize: 28,
+    marginBottom: 6,
+  },
+  iconStyle: {
     marginBottom: 6,
   },
   label: {

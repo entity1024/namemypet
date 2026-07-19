@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { View, ScrollView, StatusBar, StyleSheet, Text, Pressable, Share, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useThemeColor } from "@/hooks/use-theme-color";
+import FloatingBackButton from "@/components/FloatingBackButton";
 import Header from "@/components/Header";
 import { useNameGenerator } from "@/hooks/useNameGenerator";
 import { addFavorite } from "@/services/favorites";
@@ -59,6 +60,7 @@ export default function ResultScreen() {
       <StatusBar barStyle="dark-content" backgroundColor={bgColor} />
       <View style={styles.container}>
         <Header title="Your pet's new name" />
+        <FloatingBackButton onPress={() => router.back()} />
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
-    paddingBottom: 100,
+    paddingBottom: 80,
   },
   emojiContainer: {
     width: 120,

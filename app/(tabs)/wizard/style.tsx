@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import Header from "@/components/Header";
 import OptionCard from "@/components/OptionCard";
+import FloatingBackButton from "@/components/FloatingBackButton";
 import FloatingNextButton from "@/components/FloatingNextButton";
 import type { StyleType } from "@/types";
 
@@ -69,6 +70,7 @@ export default function StyleScreen() {
           </View>
         </ScrollView>
         <FloatingNextButton onPress={handleNext} disabled={!selected} />
+        <FloatingBackButton onPress={() => router.back()} />
       </View>
     </SafeAreaView>
   );
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1 },
   container: { flex: 1 },
   scrollView: { flex: 1 },
-  scrollContent: { paddingHorizontal: 20, paddingBottom: 130, paddingTop: 8 },
+  scrollContent: { paddingHorizontal: 20, paddingBottom: 100, paddingTop: 8 },
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",

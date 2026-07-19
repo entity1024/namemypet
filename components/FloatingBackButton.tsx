@@ -1,31 +1,25 @@
 import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
-import { useThemeColor } from "@/hooks/use-theme-color";
 
-interface FloatingNextButtonProps {
+const ORANGE = "#F97316";
+
+interface FloatingBackButtonProps {
   onPress: () => void;
-  disabled?: boolean;
 }
 
-export default function FloatingNextButton({
+export default function FloatingBackButton({
   onPress,
-  disabled = false,
-}: FloatingNextButtonProps) {
-  const primary = useThemeColor({}, "primary") || "#3498DB";
-  const disabledColor = useThemeColor({}, "disabled") || "#D1D5DB";
-  const textColor = "#FFFFFF";
-
+}: FloatingBackButtonProps) {
   return (
     <Pressable
       style={({ pressed }) => [
         styles.button,
-        { backgroundColor: disabled ? disabledColor : primary },
-        pressed && !disabled && styles.pressed,
+        { backgroundColor: ORANGE },
+        pressed && styles.pressed,
       ]}
       onPress={onPress}
-      disabled={disabled}
     >
-      <Text style={[styles.text, { color: textColor }]}>Next →</Text>
+      <Text style={styles.text}>← Back</Text>
     </Pressable>
   );
 }
@@ -34,11 +28,11 @@ const styles = StyleSheet.create({
   button: {
     position: "absolute",
     bottom: 40,
-    right: 16,
+    left: 16,
     paddingHorizontal: 28,
     paddingVertical: 14,
     borderRadius: 50,
-    shadowColor: "#3498DB",
+    shadowColor: ORANGE,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 12,
@@ -49,6 +43,7 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.95 }],
   },
   text: {
+    color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
     letterSpacing: 0.5,
