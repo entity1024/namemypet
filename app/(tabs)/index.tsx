@@ -69,7 +69,7 @@ const NameMyPetStep1: React.FC = () => {
 
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>NameMyPet</Text>
+        <Text style={styles.title}>NameMyPeting</Text>
       </View>
 
       {/* Progress Indicator */}
@@ -86,7 +86,9 @@ const NameMyPetStep1: React.FC = () => {
         showsVerticalScrollIndicator={false}
       >
         {/* Question */}
-        <Text style={styles.question}>What kind of pet do you have?</Text>
+        <Text style={styles.question}>
+          What kind of pet do you have sdfasdf?
+        </Text>
         <Text style={styles.subQuestion}>
           Select your pet to receive personalized name suggestions.
         </Text>

@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
+  Dimensions,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -11,54 +12,61 @@ import {
 } from "react-native";
 import BottomTabBar from "../../components/BottomTabBar";
 
-type Gender = "Male" | "Female" | "Either" | null;
+type StyleType =
+  | "Classic"
+  | "Cute"
+  | "Funny"
+  | "Elegant"
+  | "Mythological"
+  | "Fantasy"
+  | "Nature"
+  | "Food Inspired"
+  | "Strong"
+  | "Royal"
+  | "Geek"
+  | "Playful";
 
-interface GenderOption {
-  id: Gender;
-  label: string;
+interface StyleOption {
+  id: StyleType;
+  name: string;
   emoji: string;
-  description: string;
 }
 
-const NameMyPetStep2: React.FC = () => {
+const NameMyPetStep3: React.FC = () => {
   const router = useRouter();
   const params = useLocalSearchParams();
   const petType = params.petType as string;
+  const gender = params.gender as string;
 
-  const [selectedGender, setSelectedGender] = useState<Gender>(null);
+  const [selectedStyle, setSelectedStyle] = useState<StyleType | null>(null);
 
-  const genderOptions: GenderOption[] = [
-    {
-      id: "Male",
-      label: "Male",
-      emoji: "👦",
-      description: "He / Him",
-    },
-    {
-      id: "Female",
-      label: "Female",
-      emoji: "👧",
-      description: "She / Her",
-    },
-    {
-      id: "Either",
-      label: "Either",
-      emoji: "🌟",
-      description: "Any gender",
-    },
+  const styleOptions: StyleOption[] = [
+    { id: "Classic", name: "Classic", emoji: "👔" },
+    { id: "Cute", name: "Cute", emoji: "🥰" },
+    { id: "Funny", name: "Funny", emoji: "😂" },
+    { id: "Elegant", name: "Elegant", emoji: "✨" },
+    { id: "Mythological", name: "Mythological", emoji: "⚡" },
+    { id: "Fantasy", name: "Fantasy", emoji: "🐉" },
+    { id: "Nature", name: "Nature", emoji: "🌿" },
+    { id: "Food Inspired", name: "Food Inspired", emoji: "🍕" },
+    { id: "Strong", name: "Strong", emoji: "💪" },
+    { id: "Royal", name: "Royal", emoji: "👑" },
+    { id: "Geek", name: "Geek", emoji: "🤓" },
+    { id: "Playful", name: "Playful", emoji: "🎮" },
   ];
 
-  const handleGenderSelect = (gender: Gender) => {
-    setSelectedGender(gender);
+  const handleStyleSelect = (styleId: StyleType) => {
+    setSelectedStyle(styleId);
   };
 
   const handleNext = () => {
-    if (selectedGender) {
+    if (selectedStyle) {
       router.push({
-        pathname: "/name-my-pet/step3",
+        pathname: "/name-my-pet/step4",
         params: {
           petType: petType,
-          gender: selectedGender,
+          gender: gender,
+          style: selectedStyle,
         },
       });
     }
@@ -80,38 +88,39 @@ const NameMyPetStep2: React.FC = () => {
 
         {/* Encabezado con título y subtítulo */}
         <View style={styles.header}>
-          <Text style={styles.title}>Choose the gender</Text>
-          <Text style={styles.subtitle}>
-            This helps us generate more personalized names.
+          <Text style={styles.title}>
+            What style of name are you looking for?
           </Text>
-          {petType && <Text style={styles.petInfo}>For your {petType} 🐾</Text>}
+          <Text style={styles.subtitle}>
+            Choose the style you like the most.
+          </Text>
+          {petType && gender && (
+            <Text style={styles.petInfo}>
+              For your {petType} • {gender} 🐾
+            </Text>
+          )}
         </View>
 
-        {/* Opciones de género */}
+        {/* Grid de estilos */}
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.optionsContainer}>
-            {genderOptions.map((option) => (
+          <View style={styles.gridContainer}>
+            {styleOptions.map((style) => (
               <Pressable
-                key={option.id}
+                key={style.id}
                 style={({ pressed }) => [
-                  styles.genderCard,
-                  selectedGender === option.id && styles.genderCardSelected,
-                  pressed && styles.genderCardPressed,
+                  styles.styleCard,
+                  selectedStyle === style.id && styles.styleCardSelected,
+                  pressed && styles.styleCardPressed,
                 ]}
-                onPress={() => handleGenderSelect(option.id)}
+                onPress={() => handleStyleSelect(style.id)}
               >
                 <View style={styles.cardContent}>
-                  <Text style={styles.genderEmoji}>{option.emoji}</Text>
-                  <View style={styles.genderInfo}>
-                    <Text style={styles.genderLabel}>{option.label}</Text>
-                    <Text style={styles.genderDescription}>
-                      {option.description}
-                    </Text>
-                  </View>
+                  <Text style={styles.styleEmoji}>{style.emoji}</Text>
+                  <Text style={styles.styleName}>{style.name}</Text>
                 </View>
               </Pressable>
             ))}
@@ -122,11 +131,11 @@ const NameMyPetStep2: React.FC = () => {
         <Pressable
           style={({ pressed }) => [
             styles.nextButton,
-            (!selectedGender || pressed) && styles.nextButtonDisabled,
+            (!selectedStyle || pressed) && styles.nextButtonDisabled,
             pressed && styles.nextButtonPressed,
           ]}
           onPress={handleNext}
-          disabled={!selectedGender}
+          disabled={!selectedStyle}
         >
           <Text style={styles.nextButtonText}>Next →</Text>
         </Pressable>
@@ -137,6 +146,9 @@ const NameMyPetStep2: React.FC = () => {
     </SafeAreaView>
   );
 };
+
+const { width } = Dimensions.get("window");
+const cardSize = (width - 52) / 3;
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -190,14 +202,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 100,
   },
-  optionsContainer: {
-    gap: 16,
-    paddingTop: 8,
+  gridContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 6,
   },
-  genderCard: {
+  styleCard: {
+    width: cardSize,
+    height: cardSize,
     backgroundColor: "#F8F9FA",
-    borderRadius: 20,
-    padding: 20,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 6,
     borderWidth: 2,
     borderColor: "transparent",
     shadowColor: "#000",
@@ -209,7 +227,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 2,
   },
-  genderCardSelected: {
+  styleCardSelected: {
     backgroundColor: "#EBF5FB",
     borderColor: "#3498DB",
     shadowColor: "#3498DB",
@@ -221,30 +239,23 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 4,
   },
-  genderCardPressed: {
-    transform: [{ scale: 0.98 }],
+  styleCardPressed: {
+    transform: [{ scale: 0.95 }],
   },
   cardContent: {
-    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    padding: 8,
   },
-  genderEmoji: {
-    fontSize: 36,
-    marginRight: 16,
+  styleEmoji: {
+    fontSize: 32,
+    marginBottom: 6,
   },
-  genderInfo: {
-    flex: 1,
-  },
-  genderLabel: {
-    fontSize: 18,
-    fontWeight: "600",
+  styleName: {
+    fontSize: 11,
+    fontWeight: "500",
     color: "#1A1A1A",
-    marginBottom: 4,
-    letterSpacing: 0.2,
-  },
-  genderDescription: {
-    fontSize: 14,
-    color: "#6B6B6B",
+    textAlign: "center",
     letterSpacing: 0.2,
   },
   nextButton: {
@@ -280,4 +291,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NameMyPetStep2;
+export default NameMyPetStep3;

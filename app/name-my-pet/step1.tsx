@@ -1,15 +1,16 @@
-import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
+  Dimensions,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
+import BottomTabBar from "../../components/BottomTabBar";
 
 type PetType =
   | "Dog"
@@ -21,23 +22,29 @@ type PetType =
   | "Fish"
   | "Horse";
 
+interface Pet {
+  id: PetType;
+  name: string;
+  emoji: string;
+}
+
 const NameMyPetStep1: React.FC = () => {
   const router = useRouter();
   const [selectedPet, setSelectedPet] = useState<PetType | null>(null);
 
-  const petTypes: PetType[] = [
-    "Dog",
-    "Cat",
-    "Rabbit",
-    "Bird",
-    "Hamster",
-    "Turtle",
-    "Fish",
-    "Horse",
+  const pets: Pet[] = [
+    { id: "Dog", name: "Dog", emoji: "🐕" },
+    { id: "Cat", name: "Cat", emoji: "🐈" },
+    { id: "Rabbit", name: "Rabbit", emoji: "🐇" },
+    { id: "Bird", name: "Bird", emoji: "🐦" },
+    { id: "Hamster", name: "Hamster", emoji: "🐹" },
+    { id: "Turtle", name: "Turtle", emoji: "🐢" },
+    { id: "Fish", name: "Fish", emoji: "🐟" },
+    { id: "Horse", name: "Horse", emoji: "🐴" },
   ];
 
-  const handlePetSelect = (pet: PetType) => {
-    setSelectedPet(pet);
+  const handlePetSelect = (petId: PetType) => {
+    setSelectedPet(petId);
   };
 
   const handleNext = () => {
@@ -49,237 +56,190 @@ const NameMyPetStep1: React.FC = () => {
     }
   };
 
-  const getPetIcon = (pet: PetType): string => {
-    const iconMap: Record<PetType, string> = {
-      Dog: "🐕",
-      Cat: "🐈",
-      Rabbit: "🐇",
-      Bird: "🐦",
-      Hamster: "🐹",
-      Turtle: "🐢",
-      Fish: "🐟",
-      Horse: "🐴",
-    };
-    return iconMap[pet];
-  };
-
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.title}>NameMyPet</Text>
-      </View>
-
-      {/* Progress Indicator */}
-      <View style={styles.progressContainer}>
-        <Text style={styles.stepText}>STEP 1 OF 4</Text>
-        <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: "25%" }]} />
+      <View style={styles.container}>
+        {/* Encabezado con título y subtítulo */}
+        <View style={styles.header}>
+          <Text style={styles.title}>What kind of pet do you have?</Text>
+          <Text style={styles.subtitle}>
+            Choose your pet to receive personalized name suggestions.
+          </Text>
         </View>
-      </View>
 
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Question */}
-        <Text style={styles.question}>What kind of pet do you have?</Text>
-        <Text style={styles.subQuestion}>
-          Select your pet to receive personalized name suggestions.
-        </Text>
+        {/* Grid de mascotas */}
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.gridContainer}>
+            {pets.map((pet) => (
+              <Pressable
+                key={pet.id}
+                style={({ pressed }) => [
+                  styles.petCard,
+                  selectedPet === pet.id && styles.petCardSelected,
+                  pressed && styles.petCardPressed,
+                ]}
+                onPress={() => handlePetSelect(pet.id)}
+              >
+                <View style={styles.cardContent}>
+                  <Text style={styles.petEmoji}>{pet.emoji}</Text>
+                  <Text style={styles.petName}>{pet.name}</Text>
+                </View>
+              </Pressable>
+            ))}
+          </View>
+        </ScrollView>
 
-        {/* Pet Grid */}
-        <View style={styles.gridContainer}>
-          {petTypes.map((pet) => (
-            <TouchableOpacity
-              key={pet}
-              style={[
-                styles.petCard,
-                selectedPet === pet && styles.petCardSelected,
-              ]}
-              onPress={() => handlePetSelect(pet)}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.petEmoji}>{getPetIcon(pet)}</Text>
-              <Text style={styles.petName}>{pet}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </ScrollView>
-
-      {/* Next Button */}
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={[styles.nextButton, !selectedPet && styles.nextButtonDisabled]}
+        {/* Botón Next flotante */}
+        <Pressable
+          style={({ pressed }) => [
+            styles.nextButton,
+            (!selectedPet || pressed) && styles.nextButtonDisabled,
+            pressed && styles.nextButtonPressed,
+          ]}
           onPress={handleNext}
           disabled={!selectedPet}
         >
-          <Text style={styles.nextButtonText}>NEXT →</Text>
-        </TouchableOpacity>
-      </View>
+          <Text style={styles.nextButtonText}>Next →</Text>
+        </Pressable>
 
-      {/* Bottom Navigation - Usando expo-router */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push("/")}
-        >
-          <Feather name="home" size={24} color="#666666" />
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push("/favorites")}
-        >
-          <Feather name="heart" size={24} color="#666666" />
-          <Text style={styles.navText}>Favorites</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push("/about")}
-        >
-          <Feather name="info" size={24} color="#666666" />
-          <Text style={styles.navText}>About</Text>
-        </TouchableOpacity>
+        {/* Bottom Tab Bar - Componente reutilizable */}
+        <BottomTabBar activeTab="home" />
       </View>
     </SafeAreaView>
   );
 };
 
+const { width } = Dimensions.get("window");
+const cardSize = (width - 48) / 4;
+
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
+    position: "relative",
   },
   header: {
     paddingHorizontal: 20,
     paddingTop: 20,
-    paddingBottom: 10,
+    paddingBottom: 16,
   },
   title: {
     fontSize: 28,
-    fontWeight: "bold",
-    color: "#2C3E50",
-    letterSpacing: 0.5,
-  },
-  progressContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  stepText: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#7F8C8D",
-    letterSpacing: 1,
+    fontWeight: "700",
+    color: "#1A1A1A",
+    letterSpacing: -0.5,
+    lineHeight: 34,
     marginBottom: 8,
   },
-  progressBar: {
-    height: 4,
-    backgroundColor: "#E0E0E0",
-    borderRadius: 2,
-    overflow: "hidden",
-  },
-  progressFill: {
-    height: "100%",
-    backgroundColor: "#3498DB",
-    borderRadius: 2,
+  subtitle: {
+    fontSize: 16,
+    fontWeight: "400",
+    color: "#6B6B6B",
+    lineHeight: 22,
+    letterSpacing: 0.2,
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingBottom: 20,
-  },
-  question: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#2C3E50",
-    marginTop: 10,
-    marginBottom: 8,
-  },
-  subQuestion: {
-    fontSize: 16,
-    color: "#7F8C8D",
-    marginBottom: 24,
-    lineHeight: 22,
+    paddingBottom: 100,
   },
   gridContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginHorizontal: -6,
+    gap: 8,
   },
   petCard: {
-    width: "23%",
-    aspectRatio: 1,
+    width: cardSize,
+    height: cardSize,
     backgroundColor: "#F8F9FA",
-    borderRadius: 12,
-    alignItems: "center",
+    borderRadius: 16,
     justifyContent: "center",
-    marginHorizontal: 6,
-    marginBottom: 12,
+    alignItems: "center",
+    marginBottom: 8,
     borderWidth: 2,
     borderColor: "transparent",
-    padding: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
   },
   petCardSelected: {
-    borderColor: "#3498DB",
     backgroundColor: "#EBF5FB",
+    borderColor: "#3498DB",
+    shadowColor: "#3498DB",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 4,
+  },
+  petCardPressed: {
+    transform: [{ scale: 0.96 }],
+  },
+  cardContent: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   petEmoji: {
-    fontSize: 28,
-    marginBottom: 4,
+    fontSize: 32,
+    marginBottom: 6,
   },
   petName: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "500",
-    color: "#2C3E50",
+    color: "#1A1A1A",
     textAlign: "center",
-  },
-  footer: {
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderTopWidth: 1,
-    borderTopColor: "#E8ECF0",
-    backgroundColor: "#FFFFFF",
+    letterSpacing: 0.2,
   },
   nextButton: {
+    position: "absolute",
+    bottom: 90,
+    right: 16,
     backgroundColor: "#3498DB",
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: "center",
+    paddingHorizontal: 24,
+    paddingVertical: 14,
+    borderRadius: 50,
+    shadowColor: "#3498DB",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 6,
+    zIndex: 10,
   },
   nextButtonDisabled: {
-    backgroundColor: "#BDC3C7",
+    backgroundColor: "#D1D5DB",
+    shadowOpacity: 0,
+  },
+  nextButtonPressed: {
+    transform: [{ scale: 0.95 }],
   },
   nextButtonText: {
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
     letterSpacing: 0.5,
-  },
-  bottomNav: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: "#E8ECF0",
-    backgroundColor: "#FFFFFF",
-  },
-  navItem: {
-    alignItems: "center",
-    paddingVertical: 4,
-  },
-  navText: {
-    fontSize: 11,
-    color: "#666666",
-    marginTop: 4,
   },
 });
 
