@@ -16,7 +16,7 @@ import type { Favorite } from "@/types";
 
 const PET_EMOJI: Record<string, string> = {
   Dog: "🐕", Cat: "🐈", Rabbit: "🐇", Bird: "🐦",
-  Hamster: "🐹", Turtle: "🐢", Fish: "🐟", Horse: "🐴",
+  Hamster: "🐹", Turtle: "🐢", Fish: "🐟", Horse: "🐴", Pig: "🐷",
 };
 
 export default function FavoritesScreen() {

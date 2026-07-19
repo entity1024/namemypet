@@ -17,6 +17,7 @@ const PETS: { id: PetType; emoji: string; label: string }[] = [
   { id: "Turtle", emoji: "🐢", label: "Turtle" },
   { id: "Fish", emoji: "🐟", label: "Fish" },
   { id: "Horse", emoji: "🐴", label: "Horse" },
+  { id: "Pig", emoji: "🐷", label: "Pig" },
 ];
 
 export default function PetScreen() {
