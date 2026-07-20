@@ -1,6 +1,6 @@
 export type PetType = "Dog" | "Cat" | "Rabbit" | "Bird" | "Hamster" | "Turtle" | "Fish" | "Horse" | "Pig";
 
-export type Gender = "Male" | "Female" | "Either";
+export type Gender = "Male" | "Female" | "Any";
 
 export type StyleType =
   | "Classic" | "Cute" | "Funny" | "Elegant" | "Mythological"

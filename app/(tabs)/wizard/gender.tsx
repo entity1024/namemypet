@@ -17,7 +17,7 @@ const GENDERS: {
 }[] = [
   { id: "Male", emoji: "👦", iconName: "male", label: "Male" },
   { id: "Female", emoji: "👧", iconName: "female", label: "Female" },
-  { id: "Either", emoji: "🌟", iconName: "star", label: "Any" },
+  { id: "Any", emoji: "🌟", iconName: "star", label: "Any" },
 ];
 
 export default function GenderScreen() {

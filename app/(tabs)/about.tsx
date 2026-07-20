@@ -1,11 +1,9 @@
-import { Linking, Platform } from "react-native";
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
   StatusBar,
-  Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useThemeColor } from "@/hooks/use-theme-color";
@@ -14,21 +12,7 @@ export default function AboutScreen() {
   const bgColor = useThemeColor({}, "background");
   const textColor = useThemeColor({}, "text");
   const subtitleColor = useThemeColor({}, "subtitle");
-  const primary = useThemeColor({}, "primary");
   const border = useThemeColor({}, "border");
-
-  const handlePrivacy = () => {
-    Linking.openURL("https://namemypet.com/privacy");
-  };
-
-  const handleRate = () => {
-    const url = Platform.select({
-      ios: "https://apps.apple.com/app/namemypet",
-      android: "https://play.google.com/store/apps/details?id=com.namemypet",
-      default: "https://namemypet.com",
-    });
-    Linking.openURL(url);
-  };
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: bgColor }]}>
@@ -54,29 +38,12 @@ export default function AboutScreen() {
 
         <View style={[styles.divider, { backgroundColor: border }]} />
 
-        <Pressable
-          style={({ pressed }) => [
-            styles.linkItem,
-            pressed && styles.linkPressed,
-          ]}
-          onPress={handlePrivacy}
-        >
-          <Text style={[styles.linkText, { color: primary }]}>
-            Privacy Policy
+        {/* AdMob Banner placeholder */}
+        <View style={styles.adContainer}>
+          <Text style={[styles.adPlaceholder, { color: subtitleColor }]}>
+            Ad Placeholder
           </Text>
-        </Pressable>
-
-        <Pressable
-          style={({ pressed }) => [
-            styles.linkItem,
-            pressed && styles.linkPressed,
-          ]}
-          onPress={handleRate}
-        >
-          <Text style={[styles.linkText, { color: primary }]}>
-            Rate the app
-          </Text>
-        </Pressable>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -103,15 +70,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   divider: { height: 1, width: "80%", marginBottom: 24 },
-  linkItem: {
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 12,
+  adContainer: {
     width: "100%",
-    maxWidth: 300,
+    maxWidth: 320,
+    height: 120,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: "#9CA3AF",
+    borderStyle: "dashed",
     alignItems: "center",
-    marginBottom: 8,
+    justifyContent: "center",
+    marginTop: 8,
   },
-  linkPressed: { opacity: 0.7 },
-  linkText: { fontSize: 16, fontWeight: "500" },
+  adPlaceholder: { fontSize: 14, fontWeight: "500" },
 });

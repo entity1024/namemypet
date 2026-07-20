@@ -251,7 +251,7 @@ const NAMES_DB: Record<
         { name: "Biscotti", description: "Twice-baked Italian charm" },
       ],
     },
-    Either: {},
+    Any: {},
   },
   Cat: {
     Male: {
@@ -456,10 +456,10 @@ const NAMES_DB: Record<
         { name: "Scheherazade", description: "Storyteller queen of a thousand nights" },
       ],
     },
-    Either: {},
+    Any: {},
   },
   Rabbit: {
-    Either: {
+    Any: {
       Cute: [
         { name: "Velvet", description: "Plush as a bunny should be" },
         { name: "Puff", description: "A cotton ball with legs" },
@@ -531,7 +531,7 @@ const NAMES_DB: Record<
     Female: {},
   },
   Bird: {
-    Either: {
+    Any: {
       Classic: [
         { name: "Mango", description: "Tropical splash of color and song" },
         { name: "Kiwi", description: "Small, green, and uniquely wonderful" },
@@ -603,7 +603,7 @@ const NAMES_DB: Record<
     Female: {},
   },
   Hamster: {
-    Either: {
+    Any: {
       Cute: [
         { name: "Pebble", description: "Tiny and smooth, fits in your palm" },
         { name: "Chibi", description: "Japanese for tiny, which is perfect" },
@@ -675,7 +675,7 @@ const NAMES_DB: Record<
     Female: {},
   },
   Fish: {
-    Either: {
+    Any: {
       Classic: [
         { name: "Finn", description: "Classic name for any fish with fins" },
         { name: "Gilbert", description: "Gilled gentleman of the aquarium" },
@@ -883,10 +883,10 @@ const NAMES_DB: Record<
         { name: "Victoria", description: "Victorious queen of the realm" },
       ],
     },
-    Either: {},
+    Any: {},
   },
   Pig: {
-    Either: {
+    Any: {
       Classic: [
         { name: "Wilbur", description: "A classic pig with a big heart" },
         { name: "Babe", description: "Brave little pig with big dreams" },
@@ -963,7 +963,7 @@ const NAMES_DB: Record<
     Female: {},
   },
   Turtle: {
-    Either: {
+    Any: {
       Classic: [
         { name: "Shelly", description: "A classic for a shelled companion" },
         { name: "Moss", description: "Green-backed slowpoke of the garden" },
@@ -1068,7 +1068,7 @@ export function getNames(
   const byGender = byPet?.[gender];
   if (byGender?.[style]) return byGender[style]!;
 
-  const byEither = byPet?.Either;
+  const byEither = byPet?.Any;
   if (byEither?.[style]) return byEither[style]!;
 
   return DEFAULT_NAMES;
