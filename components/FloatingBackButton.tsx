@@ -1,3 +1,4 @@
+import { useTranslation } from "@/i18n/context";
 import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 
@@ -10,6 +11,8 @@ interface FloatingBackButtonProps {
 export default function FloatingBackButton({
   onPress,
 }: FloatingBackButtonProps) {
+  const { t } = useTranslation();
+
   return (
     <Pressable
       style={({ pressed }) => [
@@ -19,7 +22,7 @@ export default function FloatingBackButton({
       ]}
       onPress={onPress}
     >
-      <Text style={styles.text}>← Back</Text>
+      <Text style={styles.text}>{t("common.back")}</Text>
     </Pressable>
   );
 }

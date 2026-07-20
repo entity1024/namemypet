@@ -2,6 +2,7 @@ import FloatingBackButton from "@/components/FloatingBackButton";
 import FloatingNextButton from "@/components/FloatingNextButton";
 import Header from "@/components/Header";
 import OptionCard from "@/components/OptionCard";
+import { useTranslation } from "@/i18n/context";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import type { Gender } from "@/types";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -13,15 +14,16 @@ const GENDERS: {
   id: Gender;
   emoji: string;
   iconName: "male" | "female" | "star";
-  label: string;
+  labelKey: string;
 }[] = [
-  { id: "Male", emoji: "👦", iconName: "male", label: "Male" },
-  { id: "Female", emoji: "👧", iconName: "female", label: "Female" },
-  { id: "Any", emoji: "🌟", iconName: "star", label: "Any" },
+  { id: "Male", emoji: "👦", iconName: "male", labelKey: "gender.option.Male" },
+  { id: "Female", emoji: "👧", iconName: "female", labelKey: "gender.option.Female" },
+  { id: "Any", emoji: "🌟", iconName: "star", labelKey: "gender.option.Any" },
 ];
 
 export default function GenderScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const params = useLocalSearchParams();
   const petType = params.petType as string;
   const [selected, setSelected] = useState<Gender | null>(null);
@@ -48,8 +50,8 @@ export default function GenderScreen() {
       <StatusBar barStyle="dark-content" backgroundColor={bgColor} />
       <View style={styles.container}>
         <Header
-          title="Choose the gender"
-          subtitle="This helps us generate more personalized names."
+          title={t("gender.title")}
+          subtitle={t("gender.subtitle")}
           currentStep={2}
           totalSteps={4}
         />
@@ -65,7 +67,7 @@ export default function GenderScreen() {
                 emoji={g.emoji}
                 iconName={g.iconName}
                 iconColor={genderColors[g.id]}
-                label={g.label}
+                label={t(g.labelKey)}
                 selected={selected === g.id}
                 onPress={() => setSelected(g.id)}
                 variant="list"

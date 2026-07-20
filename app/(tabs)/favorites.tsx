@@ -9,6 +9,7 @@ import {
   Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "@/i18n/context";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import EmptyState from "@/components/EmptyState";
 import { getFavorites, removeFavorite } from "@/services/favorites";
@@ -21,6 +22,7 @@ const PET_EMOJI: Record<string, string> = {
 
 export default function FavoritesScreen() {
   const router = useRouter();
+  const { t, language } = useTranslation();
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const bgColor = useThemeColor({}, "background");
   const textColor = useThemeColor({}, "text");
@@ -29,7 +31,6 @@ export default function FavoritesScreen() {
   const danger = useThemeColor({}, "danger");
   const border = useThemeColor({}, "border");
   const tagBg = useThemeColor({}, "tagBackground");
-  const primary = useThemeColor({}, "primary");
 
   useFocusEffect(
     useCallback(() => {
@@ -49,7 +50,7 @@ export default function FavoritesScreen() {
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
-    return date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString(language === "es" ? "es-ES" : "en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
@@ -74,7 +75,7 @@ export default function FavoritesScreen() {
             </View>
           </View>
           <Text style={[styles.date, { color: subtitleColor }]}>
-            Saved on {formatDate(item.timestamp)}
+            {t("favorites.savedOn", { date: formatDate(item.timestamp) })}
           </Text>
         </View>
       </View>
@@ -82,7 +83,7 @@ export default function FavoritesScreen() {
         style={styles.removeButton}
         onPress={() => handleRemove(item.id)}
       >
-        <Text style={[styles.removeText, { color: danger }]}>Remove</Text>
+        <Text style={[styles.removeText, { color: danger }]}>{t("favorites.remove")}</Text>
       </Pressable>
     </View>
   );
@@ -92,9 +93,9 @@ export default function FavoritesScreen() {
       <StatusBar barStyle="dark-content" backgroundColor={bgColor} />
       <View style={[styles.container, { backgroundColor: bgColor }]}>
         <View style={styles.header}>
-          <Text style={[styles.title, { color: textColor }]}>Favorites</Text>
+          <Text style={[styles.title, { color: textColor }]}>{t("favorites.title")}</Text>
           <Text style={[styles.subtitle, { color: subtitleColor }]}>
-            Your saved pet names
+            {t("favorites.subtitle")}
           </Text>
         </View>
         <FlatList
@@ -106,9 +107,9 @@ export default function FavoritesScreen() {
           ListEmptyComponent={
             <EmptyState
               icon="💝"
-              title="No favorites yet"
-              subtitle="Names you save will appear here"
-              actionLabel="Find a name"
+              title={t("favorites.emptyTitle")}
+              subtitle={t("favorites.emptySubtitle")}
+              actionLabel={t("favorites.emptyAction")}
               onAction={() => router.push("/")}
             />
           }

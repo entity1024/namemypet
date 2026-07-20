@@ -1,7 +1,8 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { View, ScrollView, StatusBar, StyleSheet, Text, Pressable, Share, Platform } from "react-native";
+import { View, ScrollView, StatusBar, StyleSheet, Text, Pressable, Share } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "@/i18n/context";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import FloatingBackButton from "@/components/FloatingBackButton";
 import Header from "@/components/Header";
@@ -16,6 +17,7 @@ const PET_EMOJI: Record<string, string> = {
 
 export default function ResultScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const params = useLocalSearchParams();
   const petType = params.petType as PetType;
   const gender = params.gender as Gender;
@@ -48,7 +50,7 @@ export default function ResultScreen() {
   const handleShare = async () => {
     if (currentName) {
       await Share.share({
-        message: `I named my pet "${currentName.name}" with NameMyPet! 🐾`,
+        message: t("result.shareMessage", { name: currentName.name }),
       });
     }
   };
@@ -59,7 +61,7 @@ export default function ResultScreen() {
     <SafeAreaView style={[styles.safeArea, { backgroundColor: bgColor }]}>
       <StatusBar barStyle="dark-content" backgroundColor={bgColor} />
       <View style={styles.container}>
-        <Header title="Your pet's new name" />
+        <Header title={t("result.title")} />
         <FloatingBackButton onPress={() => router.back()} />
         <ScrollView
           style={styles.scrollView}
@@ -91,7 +93,7 @@ export default function ResultScreen() {
               onPress={regenerate}
             >
               <Text style={styles.primaryButtonText}>
-                Generate Another Name
+                {t("result.generateAnother")}
               </Text>
             </Pressable>
 
@@ -104,7 +106,7 @@ export default function ResultScreen() {
               onPress={handleSave}
             >
               <Text style={[styles.secondaryButtonText, { color: primary }]}>
-                {saved ? "✓ Saved!" : "Save to Favorites"}
+                {saved ? t("common.saved") : t("result.saveToFavorites")}
               </Text>
             </Pressable>
 

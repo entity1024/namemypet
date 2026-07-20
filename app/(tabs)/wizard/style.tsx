@@ -2,6 +2,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { View, ScrollView, StatusBar, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "@/i18n/context";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import Header from "@/components/Header";
 import OptionCard from "@/components/OptionCard";
@@ -9,23 +10,24 @@ import FloatingBackButton from "@/components/FloatingBackButton";
 import FloatingNextButton from "@/components/FloatingNextButton";
 import type { StyleType } from "@/types";
 
-const STYLES: { id: StyleType; emoji: string; label: string }[] = [
-  { id: "Classic", emoji: "👔", label: "Classic" },
-  { id: "Cute", emoji: "🥰", label: "Cute" },
-  { id: "Funny", emoji: "😂", label: "Funny" },
-  { id: "Elegant", emoji: "✨", label: "Elegant" },
-  { id: "Mythological", emoji: "⚡", label: "Mythological" },
-  { id: "Fantasy", emoji: "🐉", label: "Fantasy" },
-  { id: "Nature", emoji: "🌿", label: "Nature" },
-  { id: "Food Inspired", emoji: "🍕", label: "Food Inspired" },
-  { id: "Strong", emoji: "💪", label: "Strong" },
-  { id: "Royal", emoji: "👑", label: "Royal" },
-  { id: "Geek", emoji: "🤓", label: "Geek" },
-  { id: "Playful", emoji: "🎮", label: "Playful" },
+const STYLES: { id: StyleType; emoji: string; labelKey: string }[] = [
+  { id: "Classic", emoji: "👔", labelKey: "style.option.Classic" },
+  { id: "Cute", emoji: "🥰", labelKey: "style.option.Cute" },
+  { id: "Funny", emoji: "😂", labelKey: "style.option.Funny" },
+  { id: "Elegant", emoji: "✨", labelKey: "style.option.Elegant" },
+  { id: "Mythological", emoji: "⚡", labelKey: "style.option.Mythological" },
+  { id: "Fantasy", emoji: "🐉", labelKey: "style.option.Fantasy" },
+  { id: "Nature", emoji: "🌿", labelKey: "style.option.Nature" },
+  { id: "Food Inspired", emoji: "🍕", labelKey: "style.option.Food Inspired" },
+  { id: "Strong", emoji: "💪", labelKey: "style.option.Strong" },
+  { id: "Royal", emoji: "👑", labelKey: "style.option.Royal" },
+  { id: "Geek", emoji: "🤓", labelKey: "style.option.Geek" },
+  { id: "Playful", emoji: "🎮", labelKey: "style.option.Playful" },
 ];
 
 export default function StyleScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const params = useLocalSearchParams();
   const petType = params.petType as string;
   const gender = params.gender as string;
@@ -46,8 +48,8 @@ export default function StyleScreen() {
       <StatusBar barStyle="dark-content" backgroundColor={bgColor} />
       <View style={styles.container}>
         <Header
-          title="What style of name are you looking for?"
-          subtitle="Choose the style you like the most."
+          title={t("style.title")}
+          subtitle={t("style.subtitle")}
           currentStep={3}
           totalSteps={4}
         />
@@ -61,7 +63,7 @@ export default function StyleScreen() {
               <OptionCard
                 key={s.id}
                 emoji={s.emoji}
-                label={s.label}
+                label={t(s.labelKey)}
                 selected={selected === s.id}
                 onPress={() => setSelected(s.id)}
                 variant="grid"

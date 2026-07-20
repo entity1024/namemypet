@@ -2,17 +2,23 @@ import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useThemeContext } from "@/contexts/ThemeContext";
+import { useTranslation } from "@/i18n/context";
 import { useThemeColor } from "@/hooks/use-theme-color";
 
-export default function ThemeToggleButton() {
-  const { resolvedTheme, toggleTheme } = useThemeContext();
+interface LanguageToggleButtonProps {
+  onPress: () => void;
+}
+
+export default function LanguageToggleButton({
+  onPress,
+}: LanguageToggleButtonProps) {
+  const { language } = useTranslation();
   const insets = useSafeAreaInsets();
   const bgColor = useThemeColor({}, "cardBackground");
   const borderColor = useThemeColor({}, "border");
   const iconColor = useThemeColor({}, "icon");
 
-  const iconName = resolvedTheme === "light" ? "moon-outline" : "sunny-outline";
+  const iconName = language === "en" ? "language-outline" : "language";
 
   return (
     <Pressable
@@ -25,7 +31,7 @@ export default function ThemeToggleButton() {
         },
         pressed && styles.pressed,
       ]}
-      onPress={toggleTheme}
+      onPress={onPress}
     >
       <Ionicons name={iconName} size={20} color={iconColor} />
     </Pressable>
@@ -35,7 +41,7 @@ export default function ThemeToggleButton() {
 const styles = StyleSheet.create({
   button: {
     position: "absolute",
-    right: 16,
+    right: 64,
     width: 40,
     height: 40,
     borderRadius: 20,

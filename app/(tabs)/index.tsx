@@ -1,10 +1,12 @@
 import { useRouter } from "expo-router";
 import { View, Text, StyleSheet, StatusBar, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "@/i18n/context";
 import { useThemeColor } from "@/hooks/use-theme-color";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const bgColor = useThemeColor({}, "background");
   const textColor = useThemeColor({}, "text");
   const subtitleColor = useThemeColor({}, "subtitle");
@@ -18,7 +20,7 @@ export default function HomeScreen() {
           <Text style={styles.logo}>🐾</Text>
           <Text style={[styles.title, { color: textColor }]}>NameMyPet</Text>
           <Text style={[styles.subtitle, { color: subtitleColor }]}>
-            Find the perfect name for your pet
+            {t("welcome.subtitle")}
           </Text>
           <Pressable
             style={({ pressed }) => [
@@ -28,7 +30,7 @@ export default function HomeScreen() {
             ]}
             onPress={() => router.push("/wizard/pet")}
           >
-            <Text style={styles.buttonText}>Start Naming →</Text>
+            <Text style={styles.buttonText}>{t("welcome.startButton")}</Text>
           </Pressable>
         </View>
       </View>

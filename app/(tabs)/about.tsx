@@ -6,9 +6,11 @@ import {
   StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "@/i18n/context";
 import { useThemeColor } from "@/hooks/use-theme-color";
 
 export default function AboutScreen() {
+  const { t } = useTranslation();
   const bgColor = useThemeColor({}, "background");
   const textColor = useThemeColor({}, "text");
   const subtitleColor = useThemeColor({}, "subtitle");
@@ -26,14 +28,12 @@ export default function AboutScreen() {
           <Text style={styles.logoEmoji}>🐾</Text>
           <Text style={[styles.appName, { color: textColor }]}>NameMyPet</Text>
           <Text style={[styles.version, { color: subtitleColor }]}>
-            Version 1.0.0
+            {t("about.version", { version: "1.0.0" })}
           </Text>
         </View>
 
         <Text style={[styles.description, { color: subtitleColor }]}>
-          Find the perfect name for your pet. NameMyPet helps you discover
-          creative and meaningful names based on your pet's type, gender, and
-          style preferences.
+          {t("about.description")}
         </Text>
 
         <View style={[styles.divider, { backgroundColor: border }]} />
@@ -41,7 +41,7 @@ export default function AboutScreen() {
         {/* AdMob Banner placeholder */}
         <View style={styles.adContainer}>
           <Text style={[styles.adPlaceholder, { color: subtitleColor }]}>
-            Ad Placeholder
+            {t("about.adPlaceholder")}
           </Text>
         </View>
       </ScrollView>
